@@ -24,6 +24,12 @@ files:
   - name: test/Consts.java
     visible: false
     learner_created: false
+  - name: result.txt
+    visible: true
+    learner_created: true
+  - name: data.txt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/369/stages/2185/implement#comment
 status: Unchecked
 record: -1

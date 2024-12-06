@@ -1,0 +1,115 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>Every story has a beginning. In this one, a programmer aspired to be a writer, feeling disconnected from coding. You ended up with the code for one of his projects. It's full of bugs and illegible, but we'll work to fix it. Based on the class descriptions, this program seems to be intended to store and analyze user input data in three categories: numbers, booleans, and words.</p>
+<p>In this stage, the main task is to format the code according to <a href="https://www.oracle.com/technetwork/java/codeconventions-150003.pdf" rel="noopener noreferrer nofollow" target="_blank">coding style conventions</a> and familiarize yourself with the initial code and its structure. We won't test these actions, but it is necessary to do them. In this stage, organize the code so you will feel comfortable working with it in the following stages.</p>
+<p>The critical point is that we want to improve the program without changing it. Therefore, when working on stages, we can add innovations and change the structure of the code but do not modify its use cases and feedback.</p>
+<p>You might want to read some hints as you go through the project. You can try to find problems in the code by yourself or get a clue. As the number of hints increases, so does the information needed to fix the problem.</p>
+<details><summary><strong>Hint #1</strong></summary>
+<p>The code's readability could be improved by utilizing code reformatting since the author did not apply autoformatting.</p>
+</details>
+<details><summary><strong>Hint #2</strong></summary>
+<p>In IntelliJ IDEA, code reformatting can be performed by <em>Ctrl+Alt+L</em> (by default) or by <em>Code-&gt;Reformat Code</em> option from the menu. The use of reformatting in other IDEs may vary; refer to the documentation for this.</p>
+</details>
+<p>It seems that the author aspired to become a writer. Who knows, there may be an intriguing story hidden behind the code.</p>
+<h5 id="objectives">Objectives</h5>
+<p>Feel free to choose your objectives because it depends on how comfortable you'll work with the project in the following stages. These are sufficient but not necessary objectives for this stage:</p>
+<ul>
+<li>Reformat the code to improve its readability;</li>
+<li>Familiarize yourself with the code structure for further convenient navigation when fixing it.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><em>Here are some examples of bad and good formatting. These examples showcase only a few aspects of them.</em></p>
+<p><strong>Example 1: </strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Poor indentation</th>
+<th style="text-align: center;">Proper indentation</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">if (condition) {
+System.out.println("Statement 1");
+System.out.println("Statement 2");
+}</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">if (condition) {
+    System.out.println("Statement 1");
+    System.out.println("Statement 2");
+}</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 2: </strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Improper spacing</th>
+<th style="text-align: center;">Correct spacing</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">int x=5; // No space before and after '='</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">int x = 5; // Space before and after '='</code></pre>
+</td>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">System  .  out .println( "Statement 1")  ;</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">System.out.println("Statement 1");</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 3: </strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Breaking lines inappropriately</th>
+<th style="text-align: center;">Proper line breaks</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">String inp = scanner.next(); switch(inp){ case "1":
+      Action1(); break;
+      case "2": Action2();
+        break; case "3":
+        Action3(); break;
+      case "0": return;
+    }</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">String inp = scanner.next();
+switch (inp) {
+  case "1":
+    Action1();
+    break;
+  case "2":
+    Action2();
+    break;
+  case "3":
+    Action3();
+    break;
+  case "0":
+    return;
+}</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>

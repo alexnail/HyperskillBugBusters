@@ -1,0 +1,288 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>The author failed to anticipate the potential for user errors such as typos, which resulted in numerous uncaught exceptions and a lack of explicit feedback.</p>
+<p>Let's help users of this program with this problem. Add more meaningful feedback for command corner cases. As for the exceptions, find them all and leave an appropriate message.</p>
+<p>The list below contains the feedback for command corner cases.</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th>Data type</th>
+<th>Case</th>
+<th>Expected Feedback</th>
+</tr>
+<tr>
+<td>Booleans, Numbers, Words</td>
+<td>Selecting other option than <code class="java">0</code>, <code class="java">1</code>, <code class="java">2</code> or <code class="java">3</code> in the main menu</td>
+<td><code class="java">Incorrect command</code></td>
+</tr>
+<tr>
+<td>Booleans, Numbers, Words</td>
+<td><code class="java">/index</code> without such an element in a list</td>
+<td><code class="java">There is no such element</code></td>
+</tr>
+<tr>
+<td>Booleans, Numbers, Words</td>
+<td><code class="java">/sort</code> with an incorrect argument</td>
+<td><code class="java">Incorrect argument, possible arguments: ascending, descending</code></td>
+</tr>
+<tr>
+<td>Booleans, Numbers, Words</td>
+<td><code class="java">/printAll</code> with an incorrect argument</td>
+<td><code class="java">Incorrect argument, possible arguments: asList, lineByLine, oneLine</code></td>
+</tr>
+<tr>
+<td>Booleans, Numbers, Words</td>
+<td><code class="java">/frequency</code> with no elements is a list</td>
+<td><code class="java">There are no elements in a list</code></td>
+</tr>
+<tr>
+<td>Booleans</td>
+<td><code class="java">/convertTo</code> or <code class="java">/morse</code> with no elements in a list</td>
+<td><code class="java">No data memorized</code></td>
+</tr>
+<tr>
+<td>Booleans</td>
+<td><code class="java">/add</code> with an argument other than <code class="java">true</code> or <code class="java">false</code></td>
+<td><code class="java">Some arguments can't be parsed</code></td>
+</tr>
+<tr>
+<td>Booleans</td>
+<td><code class="java">/convertTo</code>with an incorrect argument</td>
+<td><code class="java">Incorrect argument, possible arguments: string, number</code></td>
+</tr>
+<tr>
+<td>Words</td>
+<td><code class="java">/regex</code> with no elements matching provided regular expression</td>
+<td><code class="java">There are no strings that match provided regex</code></td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td><code class="java">/factorial</code> for a negative number</td>
+<td>"undefined"</td>
+</tr>
+</tbody>
+</table>
+<p>If you want, you can try to find possible exceptions manually or with unit tests; you will encounter a couple of them. The hint contains a list of exceptions, their cases, and expected feedback. You can refer to it after finishing your exception search to get a list of feedback.</p>
+<details><summary><strong>Hint</strong></summary>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr>
+<th>Exception</th>
+<th>Case</th>
+<th>Feedback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">NoSuchMethodException</td>
+<td>An unknown command is executed</td>
+<td><code class="java">No such command</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">NoSuchMethodException</td>
+<td>Incorrect amount of arguments provided to a command</td>
+<td><code class="java">Incorrect amount of arguments</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">IndexOutOfBoundsException</td>
+<td>Executing any command with an out-of-bounds argument </td>
+<td><code class="java">Index out of bounds!</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">NumberFormatException</td>
+<td>Parsing non-integer arguments to integer</td>
+<td><code class="java">Some arguments can't be parsed!</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">IllegalArgumentException</td>
+<td>Executing <code class="java">/getRandom</code> command with no elements in a list</td>
+<td><code class="java">There are no elements memorized</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">ArithmeticException</td>
+<td>An element is divided by 0</td>
+<td><code class="java">Division by zero</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">NoSuchFileException</td>
+<td>Reading a file that doesn't exist</td>
+<td><code class="java">File not found!</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">PatternSyntaxException</td>
+<td>Executing <code class="java">/regex</code> with an incorrect expression</td>
+<td><code class="java">Incorrect regex pattern provided</code></td>
+</tr>
+</tbody>
+</table>
+</details>
+<h5 id="objectives">Objectives</h5>
+<p>Fix the program so users can get appropriate feedback for mistaken actions and command corner cases.</p>
+<h5 id="example">Example</h5>
+<p><em>Here are some examples of correct and incorrect command execution. Note that they show only some of the cases in the program.</em></p>
+<p><strong>Example 1:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Received</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /frequency
+Frequency:
+...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /frequency
+There is no elements memorized
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 2:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Received</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 1
+Perform action:
+&gt; /add hello
+Element false added
+Perform action:
+&gt; /printAll asList
+List of elements:
+[false]
+...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 1
+Perform action:
+&gt; /add hello
+Some arguments can't be parsed!
+Perform action:
+&gt; /printAll asList
+List of elements:
+[]
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 3:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Finished with exception</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /add hello
+    Exception in thread "main" java.lang.NumberFormatException...
+    ...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /add hello
+Some arguments can't be parsed!
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 4:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Finished with exception</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 1
+Perform action:
+&gt; /smile
+    Exception in thread "main" java.lang.NoSuchMethodException...
+    ...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 1
+Perform action:
+&gt; /smile
+No such command!
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>

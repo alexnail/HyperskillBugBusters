@@ -1,0 +1,41 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>It seems that the author didn't anticipate the program being used with large amounts of data, as some errors in memory management could affect its performance. This could lead to the program using more memory than necessary and potentially crashing with an <code class="java">OutOfMemoryError</code> if there isn't enough space to allocate new objects.</p>
+<p>Improving memory management can be a complex task, but you can use different techniques to help you identify and diagnose possible problems:</p>
+<ol>
+<li>Carefully review the code to ensure that objects are being properly released when they are no longer needed;</li>
+<li>Capture a memory snapshot and analyze heap dumps created by profiling tools;</li>
+<li>Enable garbage collection (GC) logging in the JVM to get detailed information about the GC behavior;</li>
+<li>Create stress tests that simulate heavy usage scenarios for your application. While running these tests, use profiling tools to monitor memory usage and identify abnormal behavior.</li>
+</ol>
+<details><summary><strong>Hint #1</strong></summary>
+<p>To prevent memory errors, it's crucial to check for any unnecessary object allocations in the code and eliminate them if they do not contribute to the program's logic. These measures can help prevent potential issues.</p>
+</details>
+<details><summary><strong>Hint #2</strong></summary>
+<p>Memory leaks can occur if static data structures are not adequately managed. These structures are allocated in a fixed memory location and persist throughout the program's lifetime. If they refer to objects that are no longer needed, they will remain in memory and cannot be garbage collected. Addressing this issue in the initial code is essential to prevent potential memory leaks.</p>
+</details>
+<details><summary><strong>Hint #3</strong></summary>
+<p>To prevent the depletion of available memory resources, reading files in smaller segments is advisable rather than loading the entire file at once. By processing and reading the file in smaller portions, you can manage memory usage and free up memory for each chunk after processing it.</p>
+<p>Also, linked lists can help process large files because they allow the efficient insertion of elements. Using a linked list, you can read the file in chunks and process the data incrementally rather than loading the entire file into memory.</p>
+</details>
+<details><summary><strong>Hint #4</strong></summary>
+<p>Conveniently, the program has a suitable place to release the allocated memory. Booleans, numbers, and word memorizers are not linked, so it's a good idea to invoke the garbage collector in the menu safely.</p>
+</details>
+<h5 id="objectives">Objectives</h5>
+<p>Detect mistakes in memory management the author has made in his code. Once you have identified them, analyze the code and fix it.</p>
+<h5 id="example">Example</h5>
+<p><em>Here are screenshots of memory snapshots for the initial and fixed program for the following use case:</em></p>
+<ol>
+<li><em>Selected option 1 in the menu to memorize Booleans;</em></li>
+<li><em>Imported a file with five million elements</em></li>
+<li><em>Selected option 2 in the menu to memorize numbers</em></li>
+<li><em>Imported a file with 10 million elements</em></li>
+<li><em>Selected option 3 in the menu to memorize words</em></li>
+<li><em>Imported a file with 5 million elements</em></li>
+</ol>
+<p style="text-align: center;"><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="" height="242" name="Screenshot_2.png" src="https://ucarecdn.com/66f4bddb-a21c-4512-a0c6-442886ded8a2/" width="733"/></picture></p>
+<p style="text-align: center;"><em>Initial program</em></p>
+<p style="text-align: center;"><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="" height="243" name="Screenshot_3.png" src="https://ucarecdn.com/1499b2f9-23f7-42a2-a772-9c02cb2fb7bf/" width="730"/></picture></p>
+<p style="text-align: center;"><em>Fixed program</em></p>
+
+</div>

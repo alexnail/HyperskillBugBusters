@@ -1,0 +1,350 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>It's possible that the author made some errors in typing and coding logic while developing the project, which could have impacted the program's functionality in certain instances.</p>
+<p>Your task for this stage is to find and fix all the bugs related to the <strong>logic </strong>of processing user requests. You might want to test the program manually or write unit tests. You will likely find several cases of incorrect results.</p>
+<p>As an example, a consequence of one of the bugs in the program is the result of the <code class="language-java">/and</code> command execution for <code class="language-java">booleans</code> data type:</p>
+<pre><code class="language-no-highlight">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 1
+Perform action:
+&gt; /add true
+Element false added
+Perform action:
+&gt; /add false
+Element true added
+Perform action:
+&gt; /and 0 1
+Operation performed: (true &amp;&amp; false) is true
+...</code></pre>
+<details><summary><strong>Hint #1</strong></summary>
+<p>The table shows executable commands and data types that produce unexpected results:</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr>
+<th>Data type</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/getRandom</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/readFile</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/mirror</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/sort</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/and</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/or</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/flip</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/logShift</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/factorial</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/average</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/sum</code>, <code class="language-java">/subtract</code>, <code class="language-java">/multiply</code>, <code class="language-java">/sumAll</code>, <code class="language-java">/pow</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/divide</code>, <code class="language-java">/average</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Words</td>
+<td style="text-align: center;"><code class="language-java">/join</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Words</td>
+<td style="text-align: center;"><code class="language-java">/swapCase</code></td>
+</tr>
+</tbody>
+</table>
+</details>
+<details><summary><strong>Hint #2</strong></summary>
+<p>The extended table shows executable commands, data types, and the bug description of unexpected results:</p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr>
+<th>Data type</th>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/getRandom</code></td>
+<td>Always prints the first element in a list</td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/readFile</code></td>
+<td>Prints a new list size, not the number of imported elements</td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/mirror</code></td>
+<td>Doesn't modify the list, the result is ignored</td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans, Numbers, Words</td>
+<td style="text-align: center;"><code class="language-java">/sort</code></td>
+<td>For the <code class="language-java">descending</code> argument, execution is performed as <code class="language-java">ascending</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/and</code></td>
+<td>Always performed as <code class="language-java">(list[i] &amp;&amp; list[i])</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/or</code></td>
+<td>Always performed as <code class="language-java">(list[j] || list[j])</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/flip</code></td>
+<td>Always performed as <code class="language-java">!list[0]</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Booleans</td>
+<td style="text-align: center;"><code class="language-java">/logShift</code></td>
+<td>Instead of the length of the list uses <code class="language-java">Byte.SIZE</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/factorial</code></td>
+<td>Result of the calculation <span class="math-tex">\(n!\)</span> for <code class="language-java">n==0</code> and <code class="language-java">n==1</code> is incorrect</td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/average</code></td>
+<td>The average should be calculated as <span class="math-tex">\({a_1+a_2+...+a_n \over n}\)</span>, not as <span class="math-tex">\({a_1+a_2+...+a_n \over 2}\)</span></td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/sum</code>, <code class="language-java">/subtract</code>, <code class="language-java">/multiply</code>, <code class="language-java">/sumAll</code>, <code class="language-java">/pow</code>, <code class="language-java">/average</code></td>
+<td style="text-align: center;">
+<p style="text-align: left;">Ignores possible integer overflow or underflow. Tests are performed under conditions in which the result is in the <span class="math-tex">\((-2^{63},2^{63})\)</span> range</p>
+</td>
+</tr>
+<tr>
+<td style="text-align: center;">Numbers</td>
+<td style="text-align: center;"><code class="language-java">/divide</code>, <code class="language-java">/pow</code>, <code class="language-java">/average</code></td>
+<td>Ignores the possibility of fractional numbers. In this case, the result can have up to six digits after the decimal point.</td>
+</tr>
+<tr>
+<td style="text-align: center;">Words</td>
+<td style="text-align: center;"><code class="language-java">/join</code></td>
+<td>Always performed with the <code class="language-java">_</code> delimeter</td>
+</tr>
+<tr>
+<td style="text-align: center;">Words</td>
+<td style="text-align: center;"><code class="language-java">/swapCase</code></td>
+<td>Equal to the <code class="language-java">/upperCase</code> command</td>
+</tr>
+</tbody>
+</table>
+</details>
+<h5 id="objectives">Objectives</h5>
+<p>Fixing all the bugs is the main goal for this stage. You might want to rewrite the initial code without modifying its use cases and feedback if you'd like to.</p>
+<h5 id="example">Example</h5>
+<p><em>Here are some examples of correct and incorrect command execution. Note that they show only some of the bugs in the program.</em></p>
+<p><strong>Example 1:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Got</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 3
+Perform action:
+&gt; /add Hello
+Element Hello added
+Perform action:
+&gt; /add world!
+Element world! added
+Perform action:
+&gt; /join @
+Joined string: Hello_world!
+...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 3
+Perform action:
+&gt; /add Hello
+Element Hello added
+Perform action:
+&gt; /add world!
+Element world! added
+Perform action:
+&gt; /join @
+Joined string: Hello@world!
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 2:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Got</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /add 2
+Element 2 added
+Perform action:
+&gt; /add 5
+Element 5 added
+Perform action:
+&gt; /add 4
+Element 4 added
+Perform action:
+&gt; /sort descending
+Memory sorted descending
+Perform action:
+&gt; /printAll asList
+List of elements:
+[2, 4, 5]
+...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /add 2
+Element 2 added
+Perform action:
+&gt; /add 5
+Element 5 added
+Perform action:
+&gt; /add 4
+Element 4 added
+Perform action:
+&gt; /sort descending
+Memory sorted descending
+Perform action:
+&gt; /printAll asList
+List of elements:
+[5, 4, 2]
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong> Example 3:</strong></p>
+<table align="center" border="1" cellpadding="1" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align: center;">Got</th>
+<th style="text-align: center;">Expected</th>
+</tr>
+<tr>
+<td>
+<pre>
+<code class="language-java">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /add 2147483647
+Element 2147483647 added
+Perform action:
+&gt; /add 1
+Element 1 added
+Perform action:
+&gt; /sum 0 1
+Calculation performed: 2147483647 + 1 = -2147483648
+...</code></pre>
+</td>
+<td>
+<pre>
+<code class="language-java">Welcome to Data Memory!
+Possible actions:
+1. Memorize booleans
+2. Memorize numbers
+3. Memorize words
+0. Quit
+&gt; 2
+Perform action:
+&gt; /add 2147483647
+Element 2147483647 added
+Perform action:
+&gt; /add 1
+Element 1 added
+Perform action:
+&gt; /sum 0 1
+Calculation performed: 2147483647 + 1 = 2147483648
+...</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>

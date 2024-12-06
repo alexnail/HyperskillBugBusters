@@ -1,0 +1,15 @@
+type: hyperskill
+title: BugBusters
+language: English
+summary: "<div>\r\n<div>You will practice concepts frequently tested in technical\
+  \ interviews at top tech companies.</div>\r\n\r\n<p>Get ready to put your coding\
+  \ skills to the test by troubleshooting bugs in a project centered on data retention.\
+  \ You'll delve into a world of flawed lines of code, identifying and rectifying\
+  \ errors to hone your abilities.</p>\r\n</div><br/><br/>Learn more at <a href=\"\
+  https://hyperskill.org/projects/369?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/369</a>"
+programming_language: Java
+programming_language_version: 11
+content:
+  - BugBusters
+mode: Study

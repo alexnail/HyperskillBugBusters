@@ -1,0 +1,7 @@
+type: framework
+content:
+  - Code decipher
+  - Bug hunting
+  - Handle exceptions
+  - Patch the memory drain
+current_task: 0

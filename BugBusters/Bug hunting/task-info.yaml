@@ -1,0 +1,29 @@
+type: edu
+files:
+  - name: src/memorizingtool/BooleanMemorize.java
+    visible: true
+    learner_created: false
+  - name: src/memorizingtool/FileProcessor.java
+    visible: true
+    learner_created: false
+  - name: src/memorizingtool/Memory.java
+    visible: true
+    learner_created: false
+  - name: src/memorizingtool/NumberMemorize.java
+    visible: true
+    learner_created: false
+  - name: src/memorizingtool/WordMemorize.java
+    visible: true
+    learner_created: false
+  - name: test/BehaviourTests.java
+    visible: false
+    learner_created: false
+  - name: test/BugTests.java
+    visible: false
+    learner_created: false
+  - name: test/Consts.java
+    visible: false
+    learner_created: false
+feedback_link: https://hyperskill.org/projects/369/stages/2185/implement#comment
+status: Unchecked
+record: -1

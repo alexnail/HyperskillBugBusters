@@ -27,7 +27,7 @@ files:
   - name: data.txt
     visible: true
     learner_created: true
-feedback_link: https://hyperskill.org/projects/369/stages/2184/implement#comment
+feedback_link: https://hyperskill.org/learn/step/31217#comment
 status: Solved
 feedback:
   message: Congratulations!

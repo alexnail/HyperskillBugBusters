@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 /**
@@ -36,16 +37,29 @@ public class NumberMemorize {
             System.out.println("Perform action:");
             String[] data = scanner.nextLine().split(" ");
 
-            for (int i = 1; i < data.length; i++) {
-                if (commands.get(data[0])[i - 1].equals(int.class))
-                    args.add(Integer.parseInt(data[i]));
-                else {
-                    args.add(data[i]);
+            try {
+                for (int i = 1; i < data.length; i++) {
+                    if (commands.get(data[0])[i - 1].equals(int.class))
+                        args.add(Integer.parseInt(data[i]));
+                    else {
+                        args.add(data[i]);
+                    }
                 }
+            } catch (NullPointerException ignored) {
+            } catch (NumberFormatException e) {
+                System.out.println("Command : " + data[0]);
+                System.out.println("Some arguments can't be parsed!");
             }
-            var methodName = data[0].substring(1);
-            this.getClass().getDeclaredMethod(methodName, commands.get(data[0]))
-                    .invoke(this, args.toArray());
+
+            try {
+                var methodName = data[0].substring(1);
+                this.getClass().getDeclaredMethod(methodName, commands.get(data[0]))
+                        .invoke(this, args.toArray());
+            } catch (NoSuchMethodException e) {
+                System.out.println("No such command");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Incorrect amount of arguments");
+            }
         }
     }
 
@@ -104,18 +118,30 @@ public class NumberMemorize {
     }
 
     void add(int element) {
-        list.add(element);
-        System.out.println("Element " + element + " added");
+        try {
+            list.add(element);
+            System.out.println("Element " + element + " added");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void remove(int index) {
-        list.remove(index);
-        System.out.println("Element on " + index + " position removed");
+        try {
+            list.remove(index);
+            System.out.println("Element on " + index + " position removed");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void replace(int index, int element) {
-        list.set(index, element);
-        System.out.println("Element on " + index + " position replaced with " + element);
+        try {
+            list.set(index, element);
+            System.out.println("Element on " + index + " position replaced with " + element);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void replaceAll(int from, int to) {
@@ -130,16 +156,28 @@ public class NumberMemorize {
     //within the pages of an old book. The map depicted a hidden cave at the summit of the tallest hill, rumored...
     void index(int value) {
         int i = list.indexOf(value);
-        System.out.println("First occurrence of " + value + " is on " + i + " position");
+        if (i == -1) {
+            System.out.println("There is no such element");
+        } else {
+            System.out.println("First occurrence of " + value + " is on " + i + " position");
+        }
     }
 
     void sort(String way) {
+        if (!way.equals("ascending") && !way.equals("descending")) {
+            System.out.println("Incorrect argument, possible arguments: ascending, descending");
+            return;
+        }
         Comparator<Integer> comparator = Integer::compare;
         list.sort("descending".equals(way) ? comparator.reversed() : comparator);
         System.out.printf("Memory sorted %s\n", way);
     }
 
     void frequency() {
+        if (list.isEmpty()) {
+            System.out.println("There are no elements in a list");
+            return;
+        }
         Map<Integer, Long> counts = new HashMap<>();
         for (int i : list) {
             if (counts.get(i) == null) {
@@ -156,13 +194,21 @@ public class NumberMemorize {
     }
 
     void print(int index) {
-        System.out.println("Element on " + index + " position is " + list.get(index));
+        try {
+            System.out.println("Element on " + index + " position is " + list.get(index));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void getRandom() {
-        Random random = new Random();
-        var idx = random.nextInt(list.size());
-        System.out.println("Random element: " + list.get(idx));
+        try {
+            Random random = new Random();
+            var idx = random.nextInt(list.size());
+            System.out.println("Random element: " + list.get(idx));
+        } catch (IllegalArgumentException e) {
+            System.out.println("There are no elements memorized");
+        }
     }
 
     //to hold the key to unlocking unimaginable wonders. The key in Lily's...
@@ -187,6 +233,9 @@ public class NumberMemorize {
                     System.out.print(list.get(list.size() - 1));
                 System.out.println();
                 break;
+            default:
+                System.out.println("Incorrect argument, possible arguments: asList, lineByLine, oneLine");
+                break;
         }
     }
 
@@ -205,15 +254,23 @@ public class NumberMemorize {
     }
 
     void equals(int i, int j) {
-        boolean res = list.get(i).equals(list.get(j));
-        System.out.printf("%d and %d elements are%s equal: %s\n", i, j, res ? "" : " not", list.get(i) + (res ? " = " : " != ") + list.get(j));
+        try {
+            boolean res = list.get(i).equals(list.get(j));
+            System.out.printf("%d and %d elements are%s equal: %s\n", i, j, res ? "" : " not", list.get(i) + (res ? " = " : " != ") + list.get(j));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void readFile(String path) throws IOException {
-        FileReaderInteger readerThread = new FileReaderInteger();
-        ArrayList<Integer> imported = readerThread.read(path);
-        list.addAll(imported);
-        System.out.println("Data imported: " + imported.size());
+        try {
+            FileReaderInteger readerThread = new FileReaderInteger();
+            ArrayList<Integer> imported = readerThread.read(path);
+            list.addAll(imported);
+            System.out.println("Data imported: " + imported.size());
+        } catch (NoSuchFileException e) {
+            System.out.println("File not found!");
+        }
     }
 
     void writeFile(String path) throws IOException {
@@ -229,12 +286,16 @@ public class NumberMemorize {
 
     //possession seemed to match the one shown on the map.
     void compare(int i, int j) {
-        if (list.get(i) > list.get(j)) {
-            System.out.println("Result: " + list.get(i) + " > " + list.get(j));
-        } else if (list.get(i) < list.get(j)) {
-            System.out.println("Result: " + list.get(i) + " < " + list.get(j));
-        } else {
-            System.out.println("Result: " + list.get(i) + " = " + list.get(j));
+        try {
+            if (list.get(i) > list.get(j)) {
+                System.out.println("Result: " + list.get(i) + " > " + list.get(j));
+            } else if (list.get(i) < list.get(j)) {
+                System.out.println("Result: " + list.get(i) + " < " + list.get(j));
+            } else {
+                System.out.println("Result: " + list.get(i) + " = " + list.get(j));
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
         }
     }
 
@@ -262,48 +323,81 @@ public class NumberMemorize {
 
     //dense forests and rocky terrain. After days of perseverance, she finally reached the summit and stood before...
     void sum(int i, int j) {
-        int a = list.get(i), b = list.get(j);
-        BigInteger res = BigInteger.valueOf(a).add(BigInteger.valueOf(b));
-        System.out.printf("Calculation performed: %d + %d = %d\n", a, b, res);
+        try {
+            int a = list.get(i), b = list.get(j);
+            BigInteger res = BigInteger.valueOf(a).add(BigInteger.valueOf(b));
+            System.out.printf("Calculation performed: %d + %d = %d\n", a, b, res);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
+
     }
 
     void subtract(int i, int j) {
-        int a = list.get(i), b = list.get(j);
-        BigInteger res = BigInteger.valueOf(a).subtract(BigInteger.valueOf(b));
-        System.out.printf("Calculation performed: %d - %d = %d\n", a, b, res);
+        try {
+            int a = list.get(i), b = list.get(j);
+            BigInteger res = BigInteger.valueOf(a).subtract(BigInteger.valueOf(b));
+            System.out.printf("Calculation performed: %d - %d = %d\n", a, b, res);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void multiply(int i, int j) {
-        int a = list.get(i), b = list.get(j);
-        BigInteger res = BigInteger.valueOf(a).multiply(BigInteger.valueOf(b));
-        System.out.printf("Calculation performed: %d * %d = %d\n", a, b, res);
+        try {
+            int a = list.get(i), b = list.get(j);
+            BigInteger res = BigInteger.valueOf(a).multiply(BigInteger.valueOf(b));
+            System.out.printf("Calculation performed: %d * %d = %d\n", a, b, res);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void divide(int i, int j) {
-        int a = list.get(i), b = list.get(j);
-        float res = (float) a / b;
-        System.out.printf("Calculation performed: %d / %d = %f\n", a, b, res);
+        try {
+            int a = list.get(i), b = list.get(j);
+            if (b == 0) throw new ArithmeticException("Division by zero!"); // a hack
+            float res = (float) a / b;
+            System.out.printf("Calculation performed: %d / %d = %f\n", a, b, res);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        } catch (ArithmeticException e) {
+            System.out.println("Division by zero");
+        }
     }
 
     void pow(int i, int j) {
-        BigInteger a = BigInteger.valueOf(list.get(i));
-        int b = list.get(j);
-        if (b < 0) {
-            float res = 1F/(a.pow(-b).floatValue());
-            System.out.printf("Calculation performed: %d ^ %d = %f\n", a, b, res);
-        } else {
-            BigInteger res = a.pow(b);
-            System.out.printf("Calculation performed: %d ^ %d = %d\n", a, b, res);
+        try {
+            BigInteger a = BigInteger.valueOf(list.get(i));
+            int b = list.get(j);
+            if (b < 0) {
+                float res = 1F / (a.pow(-b).floatValue());
+                System.out.printf("Calculation performed: %d ^ %d = %f\n", a, b, res);
+            } else {
+                BigInteger res = a.pow(b);
+                System.out.printf("Calculation performed: %d ^ %d = %d\n", a, b, res);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
         }
     }
 
     void factorial(int index) {
-        long res = 1;
-        int i = 2;
-        while (i <= list.get(index)) {
-            res = res * (i++);
+        try {
+            long res = 1;
+            int i = 2;
+            var target = list.get(index);
+            if (target < 0) {
+                System.out.println("undefined");
+            } else {
+                while (i <= target) {
+                    res = res * (i++);
+                }
+                System.out.printf("Calculation performed: %d! = %d\n", target, res);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
         }
-        System.out.printf("Calculation performed: %d! = %d\n", list.get(index), res);
     }
 
     //the entrance of the hidden cave. With a deep breath, she inserted the silver key into the lock, and with...

@@ -2,6 +2,7 @@ package memorizingtool;//Chapter 1
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 /**
@@ -30,19 +31,35 @@ public class BooleanMemorize {
             System.out.println("Perform action:");
 
             String[] data = scanner.nextLine().split(" ");
-            for (int i = 1; i < data.length; i++) {
-                if (commands.get(data[0])[i - 1].equals(int.class))
-                    args.add(Integer.parseInt(data[i]));
-                else if (commands.get(data[0])[i - 1].equals(Boolean.class)) {
-                    args.add(data[i].equals("true"));
-                } else {
-                    args.add(data[i]);
+            try {
+                for (int i = 1; i < data.length; i++) {
+                    if (commands.get(data[0])[i - 1].equals(int.class))
+                        args.add(Integer.parseInt(data[i]));
+                    else if (commands.get(data[0])[i - 1].equals(Boolean.class)) {
+                        var inputValue = data[i];
+                        if (inputValue.equals("true") || inputValue.equals("false")) {
+                            args.add(Boolean.parseBoolean(inputValue));
+                        } else {
+                            System.out.println("Some arguments can't be parsed");
+                        }
+                    } else {
+                        args.add(data[i]);
+                    }
                 }
+            } catch (NullPointerException ignored) {
+            } catch (NumberFormatException e) {
+                System.out.println("Some arguments can't be parsed!");
             }
 
-            var methodName = data[0].substring(1);
-            this.getClass().getDeclaredMethod(methodName, commands.get(data[0]))
-                    .invoke(this, args.toArray());
+            try {
+                var methodName = data[0].substring(1);
+                this.getClass().getDeclaredMethod(methodName, commands.get(data[0]))
+                        .invoke(this, args.toArray());
+            } catch (NoSuchMethodException e) {
+                System.out.println("No such command");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Incorrect amount of arguments");
+            }
         }
     }
 
@@ -101,13 +118,21 @@ public class BooleanMemorize {
     }
 
     void remove(int index) {
-        list.remove(index);
-        System.out.println("Element on " + index + " position removed");
+        try {
+            list.remove(index);
+            System.out.println("Element on " + index + " position removed");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void replace(int index, Boolean element) {
-        list.set(index, element);
-        System.out.println("Element on " + index + " position replaced with " + element);
+        try {
+            list.set(index, element);
+            System.out.println("Element on " + index + " position replaced with " + element);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     //adventure and a mind hungry for knowledge. Every day, she would wander through the...
@@ -121,16 +146,29 @@ public class BooleanMemorize {
     }
 
     void index(Boolean value) {
-        System.out.println("First occurrence of " + value + " is on " + list.indexOf(value) + " position");
+        var pos = list.indexOf(value);
+        if (pos == -1) {
+            System.out.println("There is no such element");
+        } else {
+            System.out.println("First occurrence of " + value + " is on " + pos + " position");
+        }
     }
 
     void sort(String way) {
+        if (!way.equals("ascending") && !way.equals("descending")) {
+            System.out.println("Incorrect argument, possible arguments: ascending, descending");
+            return;
+        }
         Comparator<Boolean> comparator = Boolean::compare;
         list.sort("descending".equals(way) ? comparator.reversed() : comparator);
         System.out.printf("Memory sorted %s\n", way);
     }
 
     void frequency() {
+        if (list.isEmpty()) {
+            System.out.println("There are no elements in a list");
+            return;
+        }
         Map<Boolean, Long> counts = new HashMap<>();
         for (Boolean b : list) {
             if (counts.get(b) == null) {
@@ -147,13 +185,21 @@ public class BooleanMemorize {
     }
 
     void print(int index) {
-        System.out.println("Element on " + index + " position is " + list.get(index));
+        try {
+            System.out.println("Element on " + index + " position is " + list.get(index));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void getRandom() {
-        Random random = new Random();
-        var idx = random.nextInt(list.size());
-        System.out.println("Random element: " + list.get(idx));
+        try {
+            Random random = new Random();
+            var idx = random.nextInt(list.size());
+            System.out.println("Random element: " + list.get(idx));
+        } catch (IllegalArgumentException e) {
+            System.out.println("There are no elements memorized");
+        }
     }
 
     void printAll(String type) {
@@ -173,9 +219,12 @@ public class BooleanMemorize {
                 for (int i = 0; i < list.size() - 1; i++) {
                     System.out.print(list.get(i) + " ");
                 }
-                if (list.size() > 0)
-                    System.out.print(list.get(list.size() - 1));
+                if (!list.isEmpty())
+                    System.out.print(list.getLast());
                 System.out.println();
+                break;
+            default:
+                System.out.println("Incorrect argument, possible arguments: asList, lineByLine, oneLine");
                 break;
         }
     }
@@ -196,16 +245,24 @@ public class BooleanMemorize {
     }
 
     void equals(int i, int j) {
-        boolean res = list.get(i).equals(list.get(j));
-        System.out.printf("%d and %d elements are%s equal: %s\n",
-                i, j, res ? "" : " not", list.get(i) + (res ? " = " : " != ") + list.get(j));
+        try {
+            boolean res = list.get(i).equals(list.get(j));
+            System.out.printf("%d and %d elements are%s equal: %s\n",
+                    i, j, res ? "" : " not", list.get(i) + (res ? " = " : " != ") + list.get(j));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void readFile(String path) throws IOException {
-        FileReaderBoolean readerThread = new FileReaderBoolean();
-        ArrayList<Boolean> imported = readerThread.read(path);
-        list.addAll(imported);
-        System.out.println("Data imported: " + imported.size());
+        try {
+            FileReaderBoolean readerThread = new FileReaderBoolean();
+            ArrayList<Boolean> imported = readerThread.read(path);
+            list.addAll(imported);
+            System.out.println("Data imported: " + imported.size());
+        } catch (NoSuchFileException e) {
+            System.out.println("File not found!");
+        }
     }
 
     void writeFile(String path) throws IOException {
@@ -220,12 +277,16 @@ public class BooleanMemorize {
     }
 
     void compare(int i, int j) {
-        if (list.get(i) && !list.get(j)) {
-            System.out.println("Result: " + list.get(i) + " > " + list.get(j));
-        } else if (!list.get(i) && list.get(j)) {
-            System.out.println("Result: " + list.get(i) + " < " + list.get(j));
-        } else {
-            System.out.println("Result: " + list.get(i) + " = " + list.get(j));
+        try {
+            if (list.get(i) && !list.get(j)) {
+                System.out.println("Result: " + list.get(i) + " > " + list.get(j));
+            } else if (!list.get(i) && list.get(j)) {
+                System.out.println("Result: " + list.get(i) + " < " + list.get(j));
+            } else {
+                System.out.println("Result: " + list.get(i) + " = " + list.get(j));
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
         }
     }
 
@@ -251,8 +312,12 @@ public class BooleanMemorize {
     }
 
     void flip(int index) {
-        list.set(index, !list.get(index));
-        System.out.println("Element on " + index + " position flipped");
+        try {
+            list.set(index, !list.get(index));
+            System.out.println("Element on " + index + " position flipped");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void negateAll() {
@@ -261,15 +326,23 @@ public class BooleanMemorize {
     }
 
     void and(int i, int j) {
-        boolean a = list.get(i), b = list.get(j);
-        boolean res = a && b;
-        System.out.printf("Operation performed: (%b && %b) is %b\n", a, b, res);
+        try {
+            boolean a = list.get(i), b = list.get(j);
+            boolean res = a && b;
+            System.out.printf("Operation performed: (%b && %b) is %b\n", a, b, res);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void or(int i, int j) {
-        boolean a = list.get(i), b = list.get(j);
-        boolean res = a || b;
-        System.out.printf("Operation performed: (%b || %b) is %b\n", a, b, res);
+        try {
+            boolean a = list.get(i), b = list.get(j);
+            boolean res = a || b;
+            System.out.printf("Operation performed: (%b || %b) is %b\n", a, b, res);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void logShift(int n) {
@@ -294,6 +367,10 @@ public class BooleanMemorize {
     }
 
     void convertTo(String type) {
+        if (list.isEmpty()) {
+            System.out.println("No data memorized");
+            return;
+        }
         StringBuilder binary = new StringBuilder();
         for (boolean b : list) {
             if (b) {
@@ -321,10 +398,18 @@ public class BooleanMemorize {
                 String asciiSequence = sb.toString();
                 System.out.println("Converted: " + asciiSequence);
                 break;
+            default:
+                System.out.println("Incorrect argument, possible arguments: string, number");
+                break;
         }
     }
 
     void morse() {
+        if (list.isEmpty()) {
+            System.out.println("No data memorized");
+            return;
+        }
+
         StringBuilder morseCode = new StringBuilder("Morse code: ");
         for (boolean b : list) {
             if (b) {

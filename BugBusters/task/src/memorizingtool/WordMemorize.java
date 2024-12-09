@@ -1,9 +1,12 @@
 package memorizingtool;//Chapter 5
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Continuing with our theme of memorization, this class is designed to help us remember words or strings.
@@ -36,16 +39,28 @@ public class WordMemorize {
             System.out.println("Perform action:");
             String[] data = scanner.nextLine().split(" ");
 
-            for (int i = 1; i < data.length; i++) {
-                if (commands.get(data[0])[i - 1].equals(int.class))
-                    args.add(Integer.parseInt(data[i]));
-                else {
-                    args.add(data[i]);
+            try {
+                for (int i = 1; i < data.length; i++) {
+                    if (commands.get(data[0])[i - 1].equals(int.class))
+                        args.add(Integer.parseInt(data[i]));
+                    else {
+                        args.add(data[i]);
+                    }
                 }
+            } catch (NullPointerException ignored) {
+            } catch (NumberFormatException e) {
+                System.out.println("Some arguments can't be parsed!");
             }
-            var methodName = data[0].substring(1);
-            this.getClass().getDeclaredMethod(methodName, commands.get(data[0]))
-                    .invoke(this, args.toArray());
+
+            try {
+                var methodName = data[0].substring(1);
+                this.getClass().getDeclaredMethod(methodName, commands.get(data[0]))
+                        .invoke(this, args.toArray());
+            } catch (NoSuchMethodException e) {
+                System.out.println("No such command");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Incorrect amount of arguments");
+            }
         }
     }
 
@@ -107,13 +122,21 @@ public class WordMemorize {
 
     //chamber filled with sparkling jewels and ancient artifacts.
     void remove(int index) {
-        list.remove(index);
-        System.out.println("Element on " + index + " position removed");
+        try {
+            list.remove(index);
+            System.out.println("Element on " + index + " position removed");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void replace(int index, String element) {
-        list.set(index, element);
-        System.out.println("Element on " + index + " position replaced with " + element);
+        try {
+            list.set(index, element);
+            System.out.println("Element on " + index + " position replaced with " + element);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void replaceAll(String from, String to) {
@@ -127,10 +150,18 @@ public class WordMemorize {
 
     void index(String value) {
         int i = list.indexOf(value);
-        System.out.println("First occurrence of " + value + " is on " + i + " position");
+        if (i == -1) {
+            System.out.println("There is no such element");
+        } else {
+            System.out.println("First occurrence of " + value + " is on " + i + " position");
+        }
     }
 
     void sort(String way) {
+        if (!way.equals("ascending") && !way.equals("descending")) {
+            System.out.println("Incorrect argument, possible arguments: ascending, descending");
+            return;
+        }
         Comparator<String> comparator = Comparator.naturalOrder();
         list.sort("descending".equals(way) ? comparator.reversed() : comparator);
         System.out.printf("Memory sorted %s\n", way);
@@ -138,6 +169,10 @@ public class WordMemorize {
 
     //And so, Lily's unwavering curiosity and determination led her to a treasure...
     void frequency() {
+        if (list.isEmpty()) {
+            System.out.println("There are no elements in a list");
+            return;
+        }
         Map<String, Long> counts = new HashMap<>();
         for (String i : list) {
             if (counts.get(i) == null) {
@@ -154,14 +189,22 @@ public class WordMemorize {
     }
 
     void print(int index) {
-        System.out.println("Element on " + index + " position is " + list.get(index));
+        try {
+            System.out.println("Element on " + index + " position is " + list.get(index));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     //trove of knowledge and beauty. From that day forward, she became known as the village's greatest...
     void getRandom() {
-        Random random = new Random();
-        var idx = random.nextInt(list.size());
-        System.out.println("Random element: " + list.get(idx));
+        try {
+            Random random = new Random();
+            var idx = random.nextInt(list.size());
+            System.out.println("Random element: " + list.get(idx));
+        } catch (IllegalArgumentException e) {
+            System.out.println("There are no elements memorized");
+        }
     }
 
     void printAll(String type) {
@@ -183,6 +226,9 @@ public class WordMemorize {
                 if (list.size() > 0) System.out.print(list.get(list.size() - 1));
                 System.out.println();
                 break;
+            default:
+                System.out.println("Incorrect argument, possible arguments: asList, lineByLine, oneLine");
+                break;
         }
     }
 
@@ -201,16 +247,24 @@ public class WordMemorize {
     }
 
     void equals(int i, int j) {
-        boolean res = list.get(i).equals(list.get(j));
-        System.out.printf("%d and %d elements are%s equal: %s\n",
-                i, j, res ? "" : " not", list.get(i) + (res ? " = " : " != ") + list.get(j));
+        try {
+            boolean res = list.get(i).equals(list.get(j));
+            System.out.printf("%d and %d elements are%s equal: %s\n",
+                    i, j, res ? "" : " not", list.get(i) + (res ? " = " : " != ") + list.get(j));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void readFile(String path) throws IOException {
-        FileReaderWords readerThread = new FileReaderWords();
-        ArrayList<String> imported = readerThread.read(path);
-        list.addAll(imported);
-        System.out.println("Data imported: " + imported.size());
+        try {
+            FileReaderWords readerThread = new FileReaderWords();
+            ArrayList<String> imported = readerThread.read(path);
+            list.addAll(imported);
+            System.out.println("Data imported: " + imported.size());
+        } catch (NoSuchFileException e) {
+            System.out.println("File not found!");
+        }
     }
 
     void writeFile(String path) throws IOException {
@@ -225,12 +279,16 @@ public class WordMemorize {
     }
 
     void compare(int i, int j) {
-        if (list.get(i).compareTo(list.get(j)) > 0) {
-            System.out.println("Result: " + list.get(i) + " > " + list.get(j));
-        } else if (list.get(i).compareTo(list.get(j)) < 0) {
-            System.out.println("Result: " + list.get(i) + " < " + list.get(j));
-        } else {
-            System.out.println("Result: " + list.get(i) + " = " + list.get(j));
+        try {
+            if (list.get(i).compareTo(list.get(j)) > 0) {
+                System.out.println("Result: " + list.get(i) + " > " + list.get(j));
+            } else if (list.get(i).compareTo(list.get(j)) < 0) {
+                System.out.println("Result: " + list.get(i) + " < " + list.get(j));
+            } else {
+                System.out.println("Result: " + list.get(i) + " = " + list.get(j));
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
         }
     }
 
@@ -257,37 +315,61 @@ public class WordMemorize {
 
     //explorer, sharing her discoveries and inspiring others to pursue their own adventures.
     void concat(int i, int j) {
-        System.out.println("Concatenated string: " + list.get(i) + list.get(j));
+        try {
+            System.out.println("Concatenated string: " + list.get(i) + list.get(j));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void swapCase(int i) {
-        System.out.printf("\"%s\" string with swapped case: ", list.get(i));
-        for (char c : (list.get(i)).toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                System.out.print(Character.toLowerCase(c));
-            } else if (Character.isLowerCase(c)) {
-                System.out.print(Character.toUpperCase(c));
-            } else {
-                System.out.print(c);
+        try {
+            System.out.printf("\"%s\" string with swapped case: ", list.get(i));
+            for (char c : (list.get(i)).toCharArray()) {
+                if (Character.isUpperCase(c)) {
+                    System.out.print(Character.toLowerCase(c));
+                } else if (Character.isLowerCase(c)) {
+                    System.out.print(Character.toUpperCase(c));
+                } else {
+                    System.out.print(c);
+                }
             }
+            System.out.println();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
         }
-        System.out.println();
     }
 
     void upper(int i) {
-        System.out.printf("Uppercase \"%s\" string: %s\n", list.get(i), (list.get(i)).toUpperCase());
+        try {
+            System.out.printf("Uppercase \"%s\" string: %s\n", list.get(i), (list.get(i)).toUpperCase());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void lower(int i) {
-        System.out.printf("Lowercase \"%s\" string: %s\n", list.get(i), (list.get(i)).toLowerCase());
+        try {
+            System.out.printf("Lowercase \"%s\" string: %s\n", list.get(i), (list.get(i)).toLowerCase());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void reverse(int i) {
-        System.out.printf("Reversed \"%s\" string: %s\n", list.get(i), new StringBuilder(list.get(i)).reverse());
+        try {
+            System.out.printf("Reversed \"%s\" string: %s\n", list.get(i), new StringBuilder(list.get(i)).reverse());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void length(int i) {
-        System.out.printf("Length of \"%s\" string: %d\n", list.get(i), (list.get(i)).length());
+        try {
+            System.out.printf("Length of \"%s\" string: %d\n", list.get(i), (list.get(i)).length());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Index out of bounds!");
+        }
     }
 
     void join(String delimiter) {
@@ -295,16 +377,23 @@ public class WordMemorize {
     }
 
     void regex(String regex) {
-        List<String> matchingElements = new ArrayList<>();
-        Pattern pattern;
-        pattern = Pattern.compile(regex);
-        for (String element : list) {
-            if (pattern.matcher(element).matches()) {
-                matchingElements.add(element);
+        try {
+            List<String> matchingElements = new ArrayList<>();
+            Pattern pattern = Pattern.compile(regex);
+            for (String element : list) {
+                if (pattern.matcher(element).matches()) {
+                    matchingElements.add(element);
+                }
             }
+            if (matchingElements.isEmpty()) {
+                System.out.println("There are no strings that match provided regex");
+            } else {
+                System.out.println("Strings that match provided regex:");
+                System.out.println(Arrays.toString(matchingElements.toArray()));
+            }
+        } catch (PatternSyntaxException e) {
+            System.out.println("Incorrect regex pattern provided");
         }
-        System.out.println("Strings that match provided regex:");
-        System.out.println(Arrays.toString(matchingElements.toArray()));
     }
 
     private static Map<String, Class<?>[]> createCommands() {

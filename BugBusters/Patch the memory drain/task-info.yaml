@@ -30,6 +30,12 @@ files:
   - name: test/MemoryTests.java
     visible: false
     learner_created: false
+  - name: result.txt
+    visible: true
+    learner_created: true
+  - name: data.txt
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/31220#comment
 status: Unchecked
 record: -1

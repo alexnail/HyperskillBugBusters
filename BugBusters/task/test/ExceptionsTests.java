@@ -273,7 +273,7 @@ public class ExceptionsTests extends StageTest {
             IOException.class,
             FileNotFoundException.class,
             NoSuchFileException.class,
-            PatternSyntaxException.class,
+            PatternSyntaxException.class
     })
       pr.feedbackOnException(c, "Caught an expected " + c.getSimpleName() + " while performing \"" + function + "\" " +
               "function for " + type + "." + (c == InvocationTargetException.class ?

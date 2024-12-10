@@ -20,14 +20,13 @@ import java.util.*;
  * It's like having a virtual assistant dedicated solely to keeping our numbers safe and accessible.
  */
 public class NumberMemorize {
-    private static final ArrayList<Integer> list = new ArrayList<>();
+    private final ArrayList<Integer> list = new ArrayList<>();
     private boolean finished = false;
-    private static final List<Object> args = new ArrayList<>();
+    private final List<Object> args = new ArrayList<>();
     private static final Map<String, Class<?>[]> commands = createCommands();
 
     //that the mysterious key belonged to. She spent days poring over books in the village library, searching...
     public NumberMemorize() {
-        list.clear();
     }
 
     void Run() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -265,7 +264,7 @@ public class NumberMemorize {
     void readFile(String path) throws IOException {
         try {
             FileReaderInteger readerThread = new FileReaderInteger();
-            ArrayList<Integer> imported = readerThread.read(path);
+            List<Integer> imported = readerThread.read(path);
             list.addAll(imported);
             System.out.println("Data imported: " + imported.size());
         } catch (NoSuchFileException e) {

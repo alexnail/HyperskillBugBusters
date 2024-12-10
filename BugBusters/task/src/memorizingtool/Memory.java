@@ -21,6 +21,9 @@ class Memory {
                     "2. Memorize numbers\n" +
                     "3. Memorize words\n" +
                     "0. Quit");
+
+            System.gc();
+
             String choice = scanner.next();
             switch (choice) {
                 case "1":

@@ -14,14 +14,13 @@ import java.util.*;
  * We can now rely on the trustworthy BooleanMemorize class to keep our Booleans intact. I can't wait to use it in my next project!
  */
 public class BooleanMemorize {
-    private static final ArrayList<Boolean> list = new ArrayList<>();
+    private final List<Boolean> list = new ArrayList<>();
     private boolean finished = false;
-    private static final List<Object> args = new ArrayList<>();
+    private final List<Object> args = new ArrayList<>();
     private static final Map<String, Class<?>[]> commands = buildCommands();
 
     //Once upon a time in a small village nestled between rolling hills, there lived...
     public BooleanMemorize() {
-        list.clear();
     }
 
     void Run() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -256,8 +255,7 @@ public class BooleanMemorize {
 
     void readFile(String path) throws IOException {
         try {
-            FileReaderBoolean readerThread = new FileReaderBoolean();
-            ArrayList<Boolean> imported = readerThread.read(path);
+            List<Boolean> imported = new FileReaderBoolean().read(path);
             list.addAll(imported);
             System.out.println("Data imported: " + imported.size());
         } catch (NoSuchFileException e) {

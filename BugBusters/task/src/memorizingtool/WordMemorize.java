@@ -1,6 +1,5 @@
 package memorizingtool;//Chapter 5
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.NoSuchFileException;
@@ -22,13 +21,12 @@ import java.util.regex.PatternSyntaxException;
  * With the WordMemorize class in our toolkit, we can confidently keep track of important words and manipulate them as needed.
  */
 public class WordMemorize {
-    static ArrayList<String> list = new ArrayList<>();
-    boolean finished = false;
-    static List<Object> args = new ArrayList<>();
+    private final ArrayList<String> list = new ArrayList<>();
+    private boolean finished = false;
+    private final List<Object> args = new ArrayList<>();
     private static final Map<String, Class<?>[]> commands = createCommands();
 
     public WordMemorize() {
-        list.clear();
     }
 
     //a satisfying click, the heavy doors slowly creaked open, revealing a dazzling...
@@ -259,7 +257,7 @@ public class WordMemorize {
     void readFile(String path) throws IOException {
         try {
             FileReaderWords readerThread = new FileReaderWords();
-            ArrayList<String> imported = readerThread.read(path);
+            List<String> imported = readerThread.read(path);
             list.addAll(imported);
             System.out.println("Data imported: " + imported.size());
         } catch (NoSuchFileException e) {

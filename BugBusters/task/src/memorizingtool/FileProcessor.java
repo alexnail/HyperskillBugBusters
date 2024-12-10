@@ -19,14 +19,11 @@ import java.util.List;
  */
 class FileReaderInteger {
 
-    static ArrayList<Integer> list = new ArrayList<>();
-
-    public ArrayList<Integer> read(String fileName) throws IOException {
-        list.clear();
-
-        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-        for (String s : lines) {
-            list.add(Integer.parseInt(s));
+    public List<Integer> read(String fileName) throws IOException {
+        List<Integer> list = new ArrayList<>();
+        try (var bufferedReader = Files.newBufferedReader(Paths.get(fileName), StandardCharsets.UTF_8)) {
+            bufferedReader.lines()
+                    .forEach(s -> list.add(Integer.parseInt(s)));
         }
         return list;
     }
@@ -35,49 +32,45 @@ class FileReaderInteger {
 
 //peculiar shimmering object hidden behind a cluster of bushes. Intrigued, she cautiously...
 class FileWriterInteger {
-    public void write(String fileName, ArrayList<Integer> data) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        for (Integer i : data) {
-            printWriter.println(i);
+    public void write(String fileName, List<Integer> data) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(fileName);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (Integer i : data) {
+                printWriter.println(i);
+            }
         }
-        printWriter.close();
     }
 }
 
 class FileReaderWords {
-    private final ArrayList<String> list = new ArrayList<>();
-
-    public ArrayList<String> read(String fileName) throws IOException {
-        list.clear();
-        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-        for (String s : lines) {
-            list.add(s);
+    public List<String> read(String fileName) throws IOException {
+        List<String> list = new ArrayList<>();
+        try (var bufferedReader = Files.newBufferedReader(Paths.get(fileName), StandardCharsets.UTF_8)) {
+            bufferedReader.lines()
+                    .forEach(list::add);
         }
         return list;
     }
 }
 
 class FileWriterWords {
-    public void write(String fileName, ArrayList<String> data) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        for (String i : data) {
-            printWriter.println(i);
+    public void write(String fileName, List<String> data) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(fileName);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (String i : data) {
+                printWriter.println(i);
+            }
         }
-        printWriter.close();
     }
 }
 
 //approached the bushes and discovered a beautifully crafted silver key. The key...
 class FileReaderBoolean {
-    private final ArrayList<Boolean> list = new ArrayList<>();
-
-    public ArrayList<Boolean> read(String fileName) throws IOException {
-        list.clear();
-        List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-        for (String s : lines) {
-            list.add(Boolean.parseBoolean(s));
+    public List<Boolean> read(String fileName) throws IOException {
+        List<Boolean> list = new ArrayList<>();
+        try (var bufferedReader = Files.newBufferedReader(Paths.get(fileName), StandardCharsets.UTF_8)) {
+            bufferedReader.lines()
+                    .forEach(s -> list.add(Boolean.parseBoolean(s)));
         }
         return list;
     }
@@ -85,12 +78,12 @@ class FileReaderBoolean {
 
 //gleamed in the sunlight, as if beckoning her to uncover its secrets.
 class FileWriterBoolean {
-    public void write(String fileName, ArrayList<Boolean> data) throws IOException {
-        FileWriter fileWriter = new FileWriter(fileName);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        for (Boolean i : data) {
-            printWriter.println(i);
+    public void write(String fileName, List<Boolean> data) throws IOException {
+        try (FileWriter fileWriter = new FileWriter(fileName);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (Boolean i : data) {
+                printWriter.println(i);
+            }
         }
-        printWriter.close();
     }
 }
